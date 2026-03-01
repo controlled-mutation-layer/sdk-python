@@ -1,39 +1,50 @@
-# sdk-python# CML Python SDK
+# Controlled Mutation Layer (CML) — Python SDK
 
-### Why did this change?
+This is a minimal reference implementation of the **Controlled Mutation Layer**.
 
-Modern systems mutate authoritative state.
+It wraps state mutation inside a structured decision boundary and emits a `Turn`.
 
-When behavior changes, engineers ask:
+---
+
+## Why
+
+Modern systems mutate authoritative state:
+
+- Refunds are issued
+- Accounts are frozen
+- Cases are escalated
+- Thresholds change
+
+When behavior shifts, engineers ask:
 
 - Was it model drift?
 - Policy drift?
-- Threshold change?
-- Signal shift?
-- Human override?
+- Threshold adjustment?
+- Signal change?
 
-Most systems can’t answer in one query.
+Most systems cannot answer in one query.
 
-The CML Python SDK wraps your decision boundary so every mutation is recorded as a structured Turn.
-
----
-
-## What This SDK Does
-
-- Captures pre-state
-- Records evaluated signals
-- Binds mutation to policy version
-- Logs authorized mutation
-- Enables replay under alternate policy
-
-This is not logging.
-
-This is mutation instrumentation.
+CML instruments the mutation boundary so every change becomes explicit.
 
 ---
 
-## Status
+## Atomic Unit: Turn
 
-Early prototype. Refunds demo coming first.
+A Turn captures:
 
-Contributions welcome.
+- Pre-state
+- Signals
+- Policy version
+- Decision
+- Post-state
+
+If you can’t answer “Why did this change?”, you don’t have a Turn.
+
+---
+
+## Examples
+
+Run:
+
+```bash
+python examples/refund_demo.py
