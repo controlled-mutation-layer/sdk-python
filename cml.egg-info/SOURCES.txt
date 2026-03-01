@@ -1,9 +1,0 @@
-README.md
-pyproject.toml
-cml/__init__.py
-cml/layer.py
-cml/turn.py
-cml.egg-info/PKG-INFO
-cml.egg-info/SOURCES.txt
-cml.egg-info/dependency_links.txt
-cml.egg-info/top_level.txt
