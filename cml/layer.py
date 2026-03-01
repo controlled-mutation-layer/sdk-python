@@ -22,7 +22,7 @@ def execute_turn(
 
     return Turn(
         turn_id=str(uuid.uuid4()),
-        timestamp=datetime.datetime.utcnow().isoformat(),
+        timestamp=datetime.datetime.now(datetime.timezone.utc).isoformat(),
         pre_state=pre_state,
         signals=signals,
         policy_version=policy_version,
