@@ -67,27 +67,37 @@ pip install -e .
 
 ## Quickstart
 
+`pre_state` and `post_state` describe what changed.
+`signals` carries bounded metadata (actor, reason codes, correlation ids, etc.) describing why and how the mutation occurred.
+
 Wrap a state mutation so every commit emits a structured `Turn` record.
 
 ```python
-from cml import Turn  # adjust to your actual public API
+import datetime
+from uuid import uuid4
+from cml.turn import Turn
 
 # 1) capture "before" state
-before = {"refund_policy": "v1", "max_refund": 50}
+pre_state = {"refund_policy": "v1", "max_refund": 50}
 
 # 2) apply mutation
-after = {"refund_policy": "v2", "max_refund": 75}
+post_state = {"refund_policy": "v2", "max_refund": 75}
 
-# 3) emit a Turn (receipt)
+# 3) emit a Turn (receipt at the mutation boundary)
 turn = Turn(
-    entity_type="policy",
-    entity_id="refund_policy",
-    action="update",
-    before=before,
-    after=after,
-    actor_type="human",
-    actor_id="ops:richard",
-    reasons=["policy_update"],
+    turn_id=str(uuid4()),
+    timestamp=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    pre_state=pre_state,
+    signals={
+        "entity": "refund_policy",
+        "actor": "ops:test",
+        "reason_codes": ["policy_update"],
+    },
+    policy_version="v0",
+    decision="update_refund_policy",
+    post_state=post_state,
 )
-print(turn.model_dump())  # or to_json() / dict() depending on your implementation
+
+print(turn)
+```
 ````
