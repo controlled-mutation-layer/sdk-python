@@ -1,7 +1,9 @@
 import uuid
 import datetime
+import json
 from dataclasses import dataclass, asdict
 from typing import Any, Dict
+
 
 @dataclass
 class Turn:
@@ -17,5 +19,4 @@ class Turn:
         return asdict(self)
 
     def to_json(self) -> str:
-        import json
         return json.dumps(self.to_dict(), indent=2)
